@@ -4,6 +4,7 @@ const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 
 
+
 var API_KEY = "R8kKWErJ8hVpxH9b1QnZZsONFHrKbMPKyKoXPdws"; // Your Firebase Cloud Messaging Server API key
 admin.initializeApp();
 
@@ -132,12 +133,80 @@ exports.newLeave = functions.firestore
         return console.log('Error getting documents', err);
       });
 
-
-
-
-
   });
 
+// exports.groupNotification = functions.firestore
+//   .document('Class/{group_state_go}')
+//   .onUpdate((change, context) => {
+//     // Get an object representing the document
+//     // e.g. {'name': 'Marie', 'age': 66}
+//     const newClass = change.after.data();
+
+//     // ...or the previous value before this update
+//     const previousValue = change.before.data();
+
+//     // access a particular field as you would any JS property
+//     const group_state = newClass.group_state;
+//     const group_state_go = newClass.group_state_go;
+//     const arr_student_id = newClass.student_id;
+
+//     // Notification details.
+//     const payload = {
+//       notification: {
+//         title: '小組分組',
+//         body: `目前有課程正在進行小組分組!`
+//       }
+//     };
+
+//     // Set the message as high priority and have it expire after 24 hours.
+//     const options = {
+//       priority: "high",
+//       timeToLive: 60 * 60 * 24
+//     };
+
+    
+
+//     if (group_state === false && group_state_go === true) {
+      
+//       var student_registrationTokenList = [];
+//       var getDoc;
+      
+//      arr_student_id.forEach(function (student_id) {
+
+//         var db = admin.firestore();
+//         // Create a reference to the cities collection
+//         var teachersRef = db.collection('Student');
+//         // Create a query against the collection
+//         var queryRef = teachersRef.where('student_id', '==', student_id);
+
+//         queryRef.get()
+//           .then(snapshot => {
+//             snapshot.forEach(doc => {
+//               // send(doc.data().teacher_registrationToken, payload, options);
+           
+//               this.student_registrationTokenList.push(doc.data().student_registrationToken);
+
+//             });
+//             return admin.messaging().sendToDevice(getDoc.student_registrationTokenList, payload, options)
+//             .then(function (response) {
+//               return console.log("Successfully sent message:", response);
+//             })
+//             .catch(function (error) {
+//               return console.log("Error sending message:", error);
+//             });
+      
+//           })
+//           .catch(err => {
+//            return console.log('Error getting documents', err);
+//           });
+
+//       });
+
+     
+
+//     }
+//     // perform desired operations ...
+//   });
 
 
 
