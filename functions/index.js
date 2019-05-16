@@ -75,7 +75,7 @@ exports.sendNotification_studentLeave = functions.firestore
   });
 
 exports.newLeave = functions.firestore
-  .document('Leave/{leave_check}')
+  .document('Leave/{leaveId}')
   .onCreate((snap, context) => {
     // Get an object representing the document
     // e.g. {'name': 'Marie', 'age': 66}
@@ -86,12 +86,15 @@ exports.newLeave = functions.firestore
     // perform desired operations ...
     // access a particular field as you would any JS property
     const teacher_email = newLeave.teacher_email;
-    console.log(newLeave.teacher_email);
+    console.log("newLeave:"+newLeave.toString);
+    console.log("newLeave:"+newLeave.toString);
+    console.log("teacher_email 0:"+newLeave.teacher_email);
+    console.log("teacher_email 1:"+teacher_email);
     // This registration token comes from the client FCM SDKs.
 
     //teacher app token
-    // const teacher_registrationToken = "ffZYAc8lMX8:APA91bHm51L_neMSw3nQaNyhgdmyhJsPvI5oV1N-rYCO4FfbHXohliskZXjIGlx73-eKJpx39kXJ7dkj3yciuxGvg9ueFtB-aazO0fwZWVr84Wjbw7HOh9AunooM4vzrS9KgLvPHxePh";
-    var teacher_registrationToken = "";
+    const teacher_registrationToken = "foqxrrUT-Lg:APA91bEh5ejCfl8_02RluKwpIzPIanmdqTplTbNXjV5q4BbZB0hZQ54a_k1_1ibVuWjkmseCvCO99hSfdQlnhoecVinq3iNWdV20_mWaSsXc03NbwgLNpKmTjuSuPsiei-QS4uAsLC-X";
+    // var teacher_registrationToken = "";
 
 
     // Notification details.
@@ -118,14 +121,15 @@ exports.newLeave = functions.firestore
 
     return getDoc = queryRef.get()
       .then(snapshot => {
+        console.log("in getDoc");
         return snapshot.forEach(doc => {
           // send(doc.data().teacher_registrationToken, payload, options);
           return admin.messaging().sendToDevice(doc.data().teacher_registrationToken, payload, options)
             .then(function (response) {
-              return console.log("Successfully sent message:", response);
+              return console.log("Successfully sent message for teacher have leave:", response);
             })
             .catch(function (error) {
-              return console.log("Error sending message:", error);
+              return console.log("Error sending message for teacher have leave:", error);
             });
         });
       })
